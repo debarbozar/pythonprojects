@@ -1,31 +1,64 @@
-print("*********************************")
-print("Welcome to Guessing Game!")
-print("*********************************")
+import random
 
-secret_number = 42
-attempt_total = 3 
-rounding = 1
+def play(): #function
+    print("*********************************")
+    print("****Welcome to Guessing Game!****")
+    print("*********************************")
 
-while (rounding <= attempt_total):
-    print("Attempt", rounding, "of", attempt_total)
-    guess_str = input("Enter a number: ")
-    print("You Typed: ", guess_str)  
-    guess = int(guess_str)
+    secret_number = random.randrange(1,101)
+    attempt_total = 0
+    point = 1000
 
-    hit = guess == secret_number
-    bigger = guess > secret_number
-    smaller = guess < secret_number
 
-    if (hit):
-        print("YEAAAH YOU HIT") #retornando errado, problema não é a logica 
-        break
+    #define level to game
+    print("What level do you want?")
+    print("(1) Easy (2) Medium (3) Hard")
+
+
+    level = int(input("Define a level: "))
+
+
+    if (level == 1):
+        attempt_total = 20
+    elif(level== 2):
+        attempt_total = 10
     else:
-        if(bigger):
-            print("You Missed! This number that u guess is bigger than secret number.")
-        elif (smaller):
-            print("You Missed! This number that u guess is smaller than a secret number.")
-    
-    rounding = rounding + 1 
+        attempt_total = 5
 
 
-print("End of game.")
+    #looping
+    for rounding in range (1, attempt_total + 1):
+        print("Attempt {} of {}".format(rounding, attempt_total))
+        guess_str = input("Enter a number between 1 and 100: ")
+    #   print("You Typed: ", guess_str)  
+        guess = int(guess_str)
+
+
+        if (guess < 1 or guess > 100):
+            print("You should guess a number between 1 and 100.")
+            continue
+
+
+        hit     = guess == secret_number
+        bigger  = guess > secret_number
+        smaller = guess < secret_number
+
+
+        if (hit):
+            print("YEAAAH YOU HIT and score {} points" .format(point)) #retornando errado, problema não é a logica 
+            break
+        else:
+            if(bigger):
+                print("You Missed! This number that u guess is bigger than secret number.")
+            elif (smaller):
+                print("You Missed! This number that u guess is smaller than a secret number.")
+
+
+        lost_point = abs(secret_number - guess)
+        point = point - lost_point
+        
+
+    print("End of game. the number of the game is {}" .format(secret_number))
+
+if(__name__ == "__main__"):
+    play()
